@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
   };
 
   outputs = { self, nixpkgs }:
@@ -16,13 +16,12 @@
       }));
     in
     {
-      formatter = forAllPkgs (pkgs: pkgs.nixpkgs-fmt);
+      formatter = forAllPkgs (pkgs: pkgs.nixfmt-tree);
 
       devShells = forAllPkgs (pkgs:
-        with pkgs.lib;
         {
-          default = pkgs.mkShell rec {
-            nativeBuildInputs = with pkgs; [
+          default = pkgs.mkShell {
+            packages = with pkgs; [
               asm-lsp
               entr
 
@@ -31,10 +30,6 @@
 
               clang-tools
             ] ++ (with llvmPackages; [ clang lldb ]);
-
-            buildInputs = with pkgs; [ ];
-
-            LD_LIBRARY_PATH = makeLibraryPath buildInputs;
           };
         });
     };

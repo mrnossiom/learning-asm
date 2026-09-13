@@ -23,11 +23,7 @@
           default = pkgs.mkShell {
             packages = with pkgs; [
               asm-lsp
-              entr
-
               gdb
-              nasm
-
               clang-tools
             ] ++ (with llvmPackages; [ clang lldb ]);
           };

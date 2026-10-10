@@ -10,6 +10,7 @@ int main(void) {
   // size_t base_addr = (size_t)printf;
   // size_t base_addr = (size_t)puts;
   size_t target_addr = (size_t)mmap;
+  // size_t target_addr = (size_t)mprotect;
   // size_t target_addr = (size_t)execve;
   // size_t target_addr = (size_t)system;
   // size_t target_addr = (size_t)dlsym;
